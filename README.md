@@ -18,4 +18,4 @@ The raw data are in `13C-Glucose_tracing_Mike.xlsx` file. To solve the MFA, just
 
 ## License
 
-This software is released under the [MIT License][opensource].
+This software is released under the [MIT License](LICENSE-MIT).
