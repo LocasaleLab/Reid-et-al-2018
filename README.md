@@ -1,6 +1,6 @@
 ## Synopsis
 
-This software is used to analyze a simple flux model. The original Excel data file is used as input. Each experiment should be in one sheet. The results of relative flux value in each experiment are exported to one .csv file. In each experiment, the average and standard deviation of each condition are calculated separately.
+This software is used for 13C metabolic flux analysis based on a simple model. The 13C tracing data in `13C-Glucose_tracing_Mike.xlsx` is used as input. Each sheet contains data from one experiment. Relative fluxes and their standard deviations in different conditions are exported to .csv files after solving the model.
 
 ## Requirements
 
@@ -8,7 +8,7 @@ This software is developed and tested on Python 3.6. It also relies on pandas, n
 
 ## Usages
 
-The raw data are in `13C-Glucose_tracing_Mike.xlsx` file. To solve the MFA, just run `main.py`. Results will be returned by `.csv` files in the same path. Each `.csv` file correspond one sheet in Excel file.
+The input data are in `13C-Glucose_tracing_Mike.xlsx` file. To solve the MFA model, run `main.py`. Results will be displayed in `.csv` files in the same path. Each `.csv` file corresponds to one experiment (one sheet in `13C-Glucose_tracing_Mike.xlsx`).
 
 ## Contributors
 
