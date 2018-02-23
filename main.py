@@ -12,10 +12,10 @@ import model
 
 def main():
     """
-    This script is used to analyze a simple flux model. The original Excel data file is used as input.
-    Each experiment should be in one sheet. The results of relative flux value in each experiment are
-    exported to one .csv file. In each experiment, the average and standard deviation of each condition
-    are calculated separately.
+    This script is used to analyze a simple flux model. The original Excel data file with 13C tracing data
+    is used as input. Each experiment should be in one sheet. The results of relative fluxes in each 
+    experiment are exported to one .csv file. In each experiment, the average and standard deviation of 
+    each condition are calculated separately.
     """
     xlsx_file_name = "13C-Glucose_tracing_Mike.xlsx"
     xlsx_file_path = "./{}".format(xlsx_file_name)
@@ -26,9 +26,10 @@ def main():
 
 def flux_analysis(xlsx_data_file_path, experiment_sheet_list):
     """
-    For each experiment sheet, the MS data are extracted and separated by condition prefix. Replicates
-    from same condition are combined together to calculate average and standard deviation. The result
-    of each sheet is exported to one .csv file.
+    For each experiment (one sheet in 13C-Glucose_tracing_Mike.xlsx), the MS data are extracted and 
+    separated by condition prefix. Replicates from the same condition are combined together to calculate
+    average and standard deviation. The results for different experiments are exported to separated .csv 
+    files.
 
     :param xlsx_data_file_path: Excel data file path
     :param experiment_sheet_list: List of required sheet name.
@@ -126,7 +127,7 @@ def calculate_replicates_in_one_condition(current_replicates_data_dict_list, bio
 
 def output_csv_data(final_result_list_with_stderr, header_row, file_object):
     """
-    Export the average flux value and standard deviation in one sheet to a .csv file.
+    Export the average flux values and standard deviations in one sheet to a .csv file.
 
     :param final_result_list_with_stderr: Average and standard deviation of flux value result.
     :param header_row: Flux name list.
