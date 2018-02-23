@@ -1,3 +1,5 @@
+# Metabolic Flux Analysis
+
 ## Synopsis
 
 This software is used for 13C metabolic flux analysis based on a simple model. The 13C tracing data in `13C-Glucose_tracing_Mike.xlsx` is used as input. Each sheet contains data from one experiment. Relative fluxes and their standard deviations in different conditions are exported to `.csv` files after solving the model.
