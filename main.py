@@ -43,7 +43,7 @@ def flux_analysis(xlsx_data_file_path, experiment_sheet_list):
         final_result_list_with_stderr = []
         for condition_prefix, replicates_data_dict_list in group_data_dict_list:
             mean_std_collection_for_current_condition = calculate_replicates_in_one_condition(
-                replicates_data_dict_list, configure.biomass_constant_dict_initial)
+                replicates_data_dict_list, configure.biomass_constant_dict_shlomi)
             final_result_list_with_stderr.append([condition_prefix] + mean_std_collection_for_current_condition)
 
         output_file_name = "{}/{}.csv".format(
