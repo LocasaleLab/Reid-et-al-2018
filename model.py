@@ -10,9 +10,8 @@ import numpy as np
 
 class Mid:
     """
-    A class that contains MID data of EMU. It can be set to natural distribution and
-    uniformly labeled distribution. It also supports convolution between two EMU and generates
-    new converged EMU.
+    A class that contains MID data of EMU. It can be set to natural abundance or
+    uniformly labeled. It also supports convolution between two EMUs.
     """
     def __init__(self, name, carbon_number, initial_mid=list()):
         self.name = name
@@ -63,8 +62,8 @@ class Mid:
 
 def natural_carbon_mid(carbon_number):
     """
-    Generate Mid class of EMU based on natural abundance of 13-carbon.
-    :param carbon_number: Carbon number
+    Generate MID of EMU based on natural abundance of 13-carbon (i.e. unlabeled).
+    :param carbon_number: number of carbon atoms in the EMU
     :return: Mid class that contain the natural distribution of target EMU.
     """
     c13_ratio = 0.01109
@@ -88,7 +87,7 @@ def uniformly_labeled_carbon_mid(carbon_number):
 
 class LeastSquareSolution:
     """
-    Class that store the least square result.
+    Class that store the least squares result.
     """
     def __init__(self, number, residual, original_b, r_square):
         self.number = number
@@ -247,7 +246,7 @@ def calculate_model(biomass_coefficient_dict):
 
 def mid_conv(mid_tuple, name=""):
     """
-    Calculate convolution of multiple Mid class. Return the new Mid object.
+    Calculate convolution of multiple Mid objects. Return the new Mid object.
     :param mid_tuple: A tuple that contains all Mid object of substrate EMUs.
     :param name: Name of new Mid object.
     :return: Mid object. Generated convolution result.
@@ -275,11 +274,11 @@ def mid_conv(mid_tuple, name=""):
 
 def mid_mix_least_square_solver(mid_substrate_tuple, mid_mixed):
     """
-    Solve the mix ratio of multiple substrate by least square method.
+    Solve the mix ratio of multiple substrate by least squares method.
 
     :param mid_substrate_tuple: A tuple of Mid object that contains all original source metabolite MID.
     :param mid_mixed: A Mid object that represents mixed MID.
-    :return: List of mix ratio for each original source metabolite. Sum of those ratio equals to 1.
+    :return: List of mix ratio for each original source metabolite. Sum of those ratios equals to 1.
     """
 
     substrate_num = len(mid_substrate_tuple)
