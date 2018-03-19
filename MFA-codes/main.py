@@ -19,8 +19,10 @@ def main():
     """
     xlsx_file_name = "13C-Glucose_tracing_Mike.xlsx"
     xlsx_file_path = "./{}".format(xlsx_file_name)
+    # experiment_sheet_list = [
+    #     "HCT116_WQ2101_PHGDH", "HCT116_Raze755_PHGDH", "BT20_WQ2101_PHGDH"]
     experiment_sheet_list = [
-        "HCT116_WQ2101_PHGDH", "HCT116_Raze755_PHGDH", "BT20_WQ2101_PHGDH"]
+        "HCT116_WQ2101_PHGDH", "BT20_WQ2101_PHGDH"]
     flux_analysis(xlsx_file_path, experiment_sheet_list)
 
 
