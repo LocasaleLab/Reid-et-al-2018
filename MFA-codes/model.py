@@ -217,6 +217,9 @@ def calculate_model(biomass_coefficient_dict):
         (mid_asp0, mid_oaa_pyr_tca_2, mid_oaa_pyr_tca_1), mid_oaa_asp)[0:2]
     asp_in = asp_in_result.number
     oaa_pyr_tca_2_ratio = oaa_pyr_tca_2_ratio_result.number
+    pyr_tca_1_ratio = 1 - asp_in - oaa_pyr_tca_2_ratio
+    if pyr_tca_1_ratio < 1e-10:
+        pyr_tca_1_ratio = 0
     mid_oaa_asp_0111 = mid_conv((mid_pyr_011, mid_co2)) * (1 - asp_in - oaa_pyr_tca_2_ratio) + mid_conv((
         mid_pyr_001, mid_pyr_001, mid_pyr_001)) * oaa_pyr_tca_2_ratio + mid_asp0_0111 * asp_in
 
@@ -234,7 +237,7 @@ def calculate_model(biomass_coefficient_dict):
     ump_syn = (1 - ump_in) * ump_out_flux
     ump_input = ump_in * ump_out_flux
     g6p_r5p = (1 - r5p_in) * (imp_syn + ump_syn)
-    pyr_tca_1 = (1 - asp_in - oaa_pyr_tca_2_ratio) * (ump_syn + asp_out_flux)
+    pyr_tca_1 = pyr_tca_1_ratio * (ump_syn + asp_out_flux)
     pyr_tca_2 = oaa_pyr_tca_2_ratio * (ump_syn + asp_out_flux)
     asp_input = asp_in * (ump_syn + asp_out_flux)
 

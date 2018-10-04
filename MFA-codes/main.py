@@ -19,19 +19,15 @@ def main():
     """
     xlsx_file_name = "13C-Glucose_tracing_Mike.xlsx"
     xlsx_file_path = "./{}".format(xlsx_file_name)
-    # experiment_sheet_list = [
-    #     "HCT116_WQ2101_PHGDH", "HCT116_Raze755_PHGDH", "BT20_WQ2101_PHGDH"]
-    experiment_sheet_list = [
-        "HCT116_WQ2101_PHGDH", "BT20_WQ2101_PHGDH"]
+    experiment_sheet_list = ["HCT116_WQ2101_PHGDH", "BT20_WQ2101_PHGDH", "HCT116_NCT503_PHGDH"]
     flux_analysis(xlsx_file_path, experiment_sheet_list)
 
 
 def flux_analysis(xlsx_data_file_path, experiment_sheet_list):
     """
     For each experiment (one sheet in 13C-Glucose_tracing_Mike.xlsx), the MS data are extracted and 
-    separated by condition prefix. Replicates from the same condition are combined together to calculate
-    average and standard deviation. The results for different experiments are exported to separated .csv 
-    files.
+    separated by condition prefix. Replicates from the same condition are collected together. The
+    results for different experiments are exported to separated .csv files.
 
     :param xlsx_data_file_path: Excel data file path
     :param experiment_sheet_list: List of required sheet name.
@@ -42,12 +38,8 @@ def flux_analysis(xlsx_data_file_path, experiment_sheet_list):
         "IMP-input", "UMP-Syn", "UMP-input"]
     for xlsx_sheet_name in experiment_sheet_list:
         group_data_dict_list = load_and_group_excel_data(xlsx_data_file_path, xlsx_sheet_name)
-        # final_result_list_with_stderr = []
         final_result_list_of_replicates = []
         for condition_prefix, replicates_data_dict_list in group_data_dict_list:
-            # mean_std_collection_for_current_condition = calculate_replicates_in_one_condition(
-            #     replicates_data_dict_list, configure.biomass_constant_dict_shlomi)
-            # final_result_list_with_stderr.append([condition_prefix] + mean_std_collection_for_current_condition)
             flux_replicates_for_current_condition = calculate_replicates_in_one_condition(
                 replicates_data_dict_list, configure.biomass_constant_dict_shlomi)
             final_result_list_of_replicates.append([condition_prefix] + flux_replicates_for_current_condition)
@@ -56,7 +48,6 @@ def flux_analysis(xlsx_data_file_path, experiment_sheet_list):
             xlsx_data_file_path[:xlsx_data_file_path.rindex('/')], xlsx_sheet_name)
 
         with open(output_file_name, 'w') as output_file_object:
-            # output_csv_data(final_result_list_with_stderr, flux_name_list, output_file_object)
             output_csv_data(final_result_list_of_replicates, flux_name_list, output_file_object)
 
 
@@ -112,8 +103,7 @@ def load_and_group_excel_data(xlsx_file_path, xlsx_sheet_name):
 
 def calculate_replicates_in_one_condition(current_replicates_data_dict_list, biomass_constant_dict):
     """
-    Use data list of replicates in one condition as input. Calculate fluxes for each replicate separately
-    and then combine them to get the average and standard deviation
+    Use data list of replicates in one condition as input. Calculate fluxes for each replicate separately.
 
     :param current_replicates_data_dict_list: data dict list of replicates in same condition
     :param biomass_constant_dict: biomass constant dict
@@ -124,20 +114,14 @@ def calculate_replicates_in_one_condition(current_replicates_data_dict_list, bio
         model.initialize_mid(data_dict)
         flux_list_by_repeat.append(model.calculate_model(biomass_constant_dict))
     return flux_list_by_repeat
-    # final_mean_std_collection = [[], []]
-    # flux_list_by_flux = zip(*flux_list_by_repeat)
-    # for flux_collection in flux_list_by_flux:
-    #     flux_collection_nparray = np.array(flux_collection)
-    #     final_mean_std_collection[0].append(flux_collection_nparray.mean())
-    #     final_mean_std_collection[1].append(flux_collection_nparray.std())
-    # return final_mean_std_collection
 
 
 def output_csv_data(final_result_list_of_replicates, header_row, file_object):
     """
-    Export the average flux values and standard deviations in one sheet to a .csv file.
+    Export the all flux values into one sheet to a .csv file. The results calculated from the same
+    condition will be put together.
 
-    :param final_result_list_of_replicates: Average and standard deviation of flux value result.
+    :param final_result_list_of_replicates: All flux values results.
     :param header_row: Flux name list.
     :param file_object: Output file object.
     :return:
@@ -145,12 +129,6 @@ def output_csv_data(final_result_list_of_replicates, header_row, file_object):
     f_out = file_object
     f_out.write("{}\n".format(",".join([""] + header_row)))
     for final_result_in_each_condition in final_result_list_of_replicates:
-        # mean_val = [str(i) for i in final_result_in_each_condition[1]]
-        # stdev_val = [str(i) for i in final_result_in_each_condition[2]]
-        # output_string = "{}\n{}\n{}\n".format(
-        #     final_result_in_each_condition[0], ",".join(["Average"] + mean_val),
-        #     ",".join(["Standard deviation"] + stdev_val))
-        # f_out.write(output_string)
         output_string_list = [final_result_in_each_condition[0]] + [
             ",".join(["Replicate {}".format(index + 1)] + [str(flux) for flux in flux_list])
             for index, flux_list in enumerate(final_result_in_each_condition[1:])]
